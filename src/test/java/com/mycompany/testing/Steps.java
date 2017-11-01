@@ -1,8 +1,11 @@
 package com.mycompany.testing;
 
 
+import com.mycompany.testing.actions.FillFields;
+import com.mycompany.testing.actions.Waits;
 import com.mycompany.testing.pages.BasePage;
-import com.mycompany.testing.pages.WelcomePage;
+import com.mycompany.testing.pages.LoginPage;
+import cucumber.api.java.en.When;
 import cucumber.api.java.ru.Когда;
 
 import org.openqa.selenium.WebDriver;
@@ -12,15 +15,17 @@ import ru.yandex.qatools.allure.annotations.Attachment;
  * Created by Ivan on 28.10.2017.
  */
 public class Steps {
-    @Когда("^авторизован пользователь с телефонным номером \"([^\"]*)\" и пинкодом \"([^\"]*)\"$")
-    public void login(String telNum, String pincode) throws Throwable {
+    @When("^log in with username \"([^\"]*)\" and password \"([^\"]*)\"$")
+    public void login(String username, String password) throws Throwable {
         BasePage basePage = new BasePage();
         basePage.startDriver();
         WebDriver driver = basePage.getDriver();
-        WelcomePage welcomePage = new WelcomePage(driver);
-        welcomePage.logo.click();
-        welcomePage.nextButton.click();
-        welcomePage.skipButton.click();
+        driver.navigate().to(basePage.getSettingsProperties("LoginURL"));
+        LoginPage loginPage = new LoginPage(driver);
+        FillFields fillFields = new FillFields();
+        fillFields.fillField(loginPage.Username, username);
+        fillFields.fillField(loginPage.Password, password);
+        loginPage.loginButton.click();
     }
 
     @Attachment()

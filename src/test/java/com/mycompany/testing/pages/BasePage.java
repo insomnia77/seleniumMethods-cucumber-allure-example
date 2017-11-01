@@ -4,56 +4,70 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.Connection;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * Created by Ivan on 28.10.2017.
  */
 public class BasePage {
     private static WebDriver driver;
+    private static Properties prop = null;
 
     public static WebDriver getDriver() {
         return driver;
     }
 
     public void startDriver() {
-        String pathToApp = "A:\\revolut_project\\Revolut_qa_4.3.0.237.apk";
-        File app = new File(pathToApp);
-        if (app.exists() && !app.isDirectory()) {
-            System.out.println("APK присутствует");
+        if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+            System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
         } else {
-            System.out.println(pathToApp);
-            System.out.println("APK не найдено");        }
-        String platformVersion = "4.3.1";
-        String deviceName = "test_nexus";
-        String appiumUrl = "http://127.0.0.1:4725/wd/hub";
-        Boolean unicodeKeyboard = true;
-        String browserName = "";
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        if (unicodeKeyboard.equals(true)) {
-            capabilities.setCapability("unicodeKeyboard", true);
-            capabilities.setCapability("resetKeyboard", true);
-        } else {
-            capabilities.setCapability("unicodeKeyboard", false);       }
-        capabilities.setCapability(MobileCapabilityType.APP, pathToApp);
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
-        capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 100);
-        capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Appium");
-        capabilities.setCapability("appPackage", "com.revolut.revolut.test");
-        try {
-            driver = new AndroidDriver(new URL(appiumUrl), capabilities);
-            // todo убрать потом
-            Thread.sleep(8000);
-
-        } catch (Exception ex) {
-            System.out.println("не удалось запустить андроид");
-            System.out.println(ex.fillInStackTrace().toString());
+            System.setProperty("webdriver.chrome.driver", "drivers/chromedriver");
         }
-
+        ChromeDriverService service = ChromeDriverService.createDefaultService();
+        HashMap<String, Object> chromePrefs = new HashMap<>();
+        chromePrefs.put("profile.default_content_settings.popups", 0);
+        chromePrefs.put("multiple-automatic-downloads", 1);
+        chromePrefs.put("profile.content_settings.exceptions.automatic_downloads.*.setting", 1);
+        chromePrefs.put("download.prompt_for_download", false);
+        chromePrefs.put("download.default_directory", getSettingsProperties("PathToDownLoad"));
+        chromePrefs.put("perfLoggingPrefs", true);
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        options.addArguments("--disable-web-security");
+        options.setExperimentalOption("prefs", chromePrefs);
+        driver = new ChromeDriver(service, options);
     }
+
+    public static String getSettingsProperties(String Variable) {
+        if (prop != null) {
+            return prop.getProperty(Variable,"");
+        }
+        prop = new Properties();
+        String propFile = "AutoTest.properties";
+        try {
+            FileInputStream fis = new FileInputStream(propFile);
+            InputStreamReader reader = new InputStreamReader(fis,"UTF8");
+            prop.load(reader);
+        } catch (IOException e) {
+            System.err.println("TestSetPath.properties not found!");
+
+            e.printStackTrace();
+        }
+        String res = null;
+        res = prop.getProperty(Variable,"");
+        return res;
+    }
+
+
 }
