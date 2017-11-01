@@ -6,7 +6,7 @@ import com.mycompany.testing.actions.Waits;
 import com.mycompany.testing.pages.BasePage;
 import com.mycompany.testing.pages.LoginPage;
 import cucumber.api.java.en.When;
-import cucumber.api.java.ru.Когда;
+
 
 import org.openqa.selenium.WebDriver;
 import ru.yandex.qatools.allure.annotations.Attachment;

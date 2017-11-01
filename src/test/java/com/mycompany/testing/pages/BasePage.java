@@ -1,8 +1,6 @@
 package com.mycompany.testing.pages;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.Connection;
-import io.appium.java_client.remote.MobileCapabilityType;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
