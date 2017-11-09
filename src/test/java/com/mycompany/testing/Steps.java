@@ -5,6 +5,7 @@ import com.mycompany.testing.actions.FillFields;
 import com.mycompany.testing.actions.Waits;
 import com.mycompany.testing.pages.BasePage;
 import com.mycompany.testing.pages.LoginPage;
+import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 
@@ -27,6 +28,12 @@ public class Steps {
         fillFields.fillField(loginPage.Password, password);
         loginPage.loginButton.click();
     }
+
+    @When("^add employee with first name \"([^\"]*)\" and last name \"([^\"]*)\" and start date \"([^\"]*)\" and email \"([^\"]*)\"$")
+    public void addEmployee(String firstName, String lastName, String startDate, String Email) throws Throwable {
+
+    }
+
 
     @Attachment()
     private byte[] createAttachment(String att) {
