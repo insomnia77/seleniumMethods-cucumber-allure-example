@@ -3,6 +3,7 @@ package com.mycompany.testing;
 
 import com.mycompany.testing.actions.FillFields;
 import com.mycompany.testing.actions.Waits;
+import com.mycompany.testing.pages.AccountsPage;
 import com.mycompany.testing.pages.BasePage;
 import com.mycompany.testing.pages.LoginPage;
 import cucumber.api.java.en.Then;
@@ -26,13 +27,30 @@ public class Steps {
         FillFields fillFields = new FillFields();
         fillFields.fillField(loginPage.Username, username);
         fillFields.fillField(loginPage.Password, password);
+        Waits waits = new Waits();
+        waits.WaitElement(loginPage.loginButton);
         loginPage.loginButton.click();
     }
 
     @When("^add employee with first name \"([^\"]*)\" and last name \"([^\"]*)\" and start date \"([^\"]*)\" and email \"([^\"]*)\"$")
     public void addEmployee(String firstName, String lastName, String startDate, String Email) throws Throwable {
-
+        BasePage basePage = new BasePage();
+        AccountsPage accountsPage = new AccountsPage(basePage.getDriver());
+        Waits waits = new Waits();
+        waits.WaitElement(accountsPage.Create);
+        accountsPage.Create.click();
+        waits.waitForPageToLoad(basePage.getDriver());
+        accountsPage.edit(firstName, lastName, startDate, Email);
     }
+
+    @When("^edit employee with first name \"([^\"]*)\" and last name \"([^\"]*)\" and start date \"([^\"]*)\" and email \"([^\"]*)\"$")
+    public void editEmployee(String firstName, String lastName, String startDate, String Email) throws Throwable {
+        BasePage basePage = new BasePage();
+        AccountsPage accountsPage = new AccountsPage(basePage.getDriver());
+        accountsPage.edit(firstName, lastName, startDate, Email);
+    }
+
+
 
 
     @Attachment()

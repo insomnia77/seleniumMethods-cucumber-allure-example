@@ -1,6 +1,7 @@
 package com.mycompany.testing.pages;
 
 
+import org.junit.After;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -66,6 +67,9 @@ public class BasePage {
         res = prop.getProperty(Variable,"");
         return res;
     }
+
+
+
 
 
 }

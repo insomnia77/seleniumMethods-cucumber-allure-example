@@ -1,5 +1,7 @@
 package com.mycompany.testing.pages;
 
+import com.mycompany.testing.actions.FillFields;
+import com.mycompany.testing.actions.Waits;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -39,13 +41,9 @@ public class AccountsPage extends BasePage {
     public
     WebElement Email;
 
-    @FindBy(xpath = "//*[@name='employeeForm']//span[text()='Add']")
+    @FindBy(xpath = "//*[@name='employeeForm']//button[contains(text(), Add) and not(contains(@class,'ng-hide'))] | //*[@name='employeeForm']//button[contains(text(), Update) and not(contains(@class,'ng-hide'))]")
     public
-    WebElement Add;
-
-    @FindBy(xpath = "//*[@name='employeeForm']//span[text()='Update']")
-    public
-    WebElement Update;
+    WebElement Add_or_Update;
 
 
 
@@ -53,8 +51,20 @@ public class AccountsPage extends BasePage {
 
     public AccountsPage(WebDriver driver) {
         this.driver = driver;
+        Waits waits = new Waits();
+        waits.waitForPageToLoad(driver);
         PageFactory.initElements(driver, this);
     }
 
+    public void edit(String firstName, String lastName, String startDate, String Email) {
+        FillFields fillFields = new FillFields();
+        fillFields.fillField(First_name, firstName);
+        fillFields.fillField(Last_name, lastName);
+        fillFields.fillField(Start_date, startDate);
+        fillFields.fillField(this.Email, Email);
+        Waits waits = new Waits();
+        waits.WaitElement(Add_or_Update);
+        Add_or_Update.click();
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.mycompany.testing.pages;
 
+import com.mycompany.testing.actions.Waits;
 import com.mycompany.testing.pages.BasePage;
+import gherkin.lexer.Th;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -26,8 +28,10 @@ public class LoginPage extends BasePage {
 
     private WebDriver driver;
 
-    public LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) throws Exception{
         this.driver = driver;
+       Waits waits = new Waits();
+        waits.waitForPageToLoad(driver);
         PageFactory.initElements(driver, this);
     }
 }
