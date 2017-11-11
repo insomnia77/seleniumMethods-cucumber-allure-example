@@ -1,0 +1,1 @@
+# seleniumMethods-cucumber-allure-example
