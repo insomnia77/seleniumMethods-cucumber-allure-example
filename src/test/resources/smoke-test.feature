@@ -1,5 +1,5 @@
 #language: en
-Feature: test
+Feature: positive tests
 Background:
 Given log in with username "Luke" and password "Skywalker"
 

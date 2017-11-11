@@ -27,7 +27,7 @@ public class BasePage {
     private static WebDriver driver;
     private static Properties prop = null;
 
-    @FindBy(linkText = "Logout")
+    @FindBy(xpath = "//header//p[text()='Logout']")
     public
     WebElement Logout;
 
@@ -87,6 +87,7 @@ public class BasePage {
       waits.WaitElement(Logout);
       Logout.click();
       driver.close();
+      driver = null;
   }
 
 
