@@ -1,6 +1,7 @@
 package com.mycompany.testing;
 
 
+import com.mycompany.testing.actions.Alerts;
 import com.mycompany.testing.actions.FillFields;
 import com.mycompany.testing.actions.Waits;
 import com.mycompany.testing.pages.AccountsPage;
@@ -71,7 +72,22 @@ public class Steps {
     }
 
 
+    @Then("^delete selected employee$")
+    public void deleteSelectedEmployee() throws Throwable {
+        BasePage basePage = new BasePage();
+        AccountsPage accountsPage = new AccountsPage(basePage.getDriver());
+        Waits waits = new Waits();
+        waits.WaitElement(accountsPage.Delete);
+        accountsPage.Delete.click();
+        Alerts alerts = new Alerts();
+        alerts.acceptAlert(basePage.getDriver());
+    }
 
+    @Then("^logout$")
+    public void stepLogout() throws Throwable {
+        BasePage basePage = new BasePage();
+        basePage.logout();
+    }
 
     @Attachment()
     private byte[] createAttachment(String att) {

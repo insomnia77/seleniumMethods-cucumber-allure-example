@@ -1,12 +1,16 @@
 package com.mycompany.testing.pages;
 
 
+import com.mycompany.testing.actions.Waits;
 import org.junit.After;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +26,10 @@ import java.util.Properties;
 public class BasePage {
     private static WebDriver driver;
     private static Properties prop = null;
+
+    @FindBy(linkText = "Logout")
+    public
+    WebElement Logout;
 
     public static WebDriver getDriver() {
         return driver;
@@ -72,7 +80,14 @@ public class BasePage {
         return res;
     }
 
-
+  public void logout()
+  {
+      PageFactory.initElements(driver, this);
+      Waits waits = new Waits();
+      waits.WaitElement(Logout);
+      Logout.click();
+      driver.close();
+  }
 
 
 

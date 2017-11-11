@@ -8,7 +8,7 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>allure-cucumber-jvm-example</artifactId>
+    <artifactId>seleniumMethods-cucumber-allure-example</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -17,8 +17,8 @@
         <aspectj.version>1.7.4</aspectj.version>
     </properties>
 
-    <name>Allure Cucumber-JVM Example</name>
-    <description>Allure Cucumber-JVM Usage Example</description>
+    <name>seleniumMethods-cucumber-allure-example</name>
+    <description>seleniumMethods-cucumber-allure-example</description>
 
     <dependencies>
         <dependency>
@@ -70,6 +70,15 @@
                     <webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
                     <stopKey>stop</stopKey>
                     <stopPort>1234</stopPort>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
