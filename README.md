@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # seleniumMethods-cucumber-allure-example
 =======
 [maven]: http://maven.apache.org/
@@ -20,4 +20,3 @@ To see a report, run `mvn jetty:run` and open `http://localhost:8080` in your br
 **NOTE: required maven version 3.1.1 or above**
         required java 1.8
 
->>>>>>> master
