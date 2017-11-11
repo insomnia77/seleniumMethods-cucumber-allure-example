@@ -10,6 +10,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import ru.yandex.qatools.allure.annotations.Attachment;
 
@@ -43,11 +45,29 @@ public class Steps {
         accountsPage.edit(firstName, lastName, startDate, Email);
     }
 
-    @When("^edit employee with first name \"([^\"]*)\" and last name \"([^\"]*)\" and start date \"([^\"]*)\" and email \"([^\"]*)\"$")
-    public void editEmployee(String firstName, String lastName, String startDate, String Email) throws Throwable {
+    @When("^select employee with first name \"([^\"]*)\" and last name \"([^\"]*)\"$")
+    public void selectEmployee(String firstName, String lastName) throws Throwable {
         BasePage basePage = new BasePage();
         AccountsPage accountsPage = new AccountsPage(basePage.getDriver());
+        accountsPage.select(firstName, lastName);
+    }
+
+    @When("^edit selected employee and set first name \"([^\"]*)\" and set last name \"([^\"]*)\" and set start date \"([^\"]*)\" and set email \"([^\"]*)\"$")
+    public void editSelectedEmployee(String firstName, String lastName, String startDate, String Email) throws Throwable {
+        BasePage basePage = new BasePage();
+        AccountsPage accountsPage = new AccountsPage(basePage.getDriver());
+        Waits waits = new Waits();
+        waits.WaitElement(accountsPage.Edit);
+        accountsPage.Edit.click();
+        waits.waitForPageToLoad(basePage.getDriver());
         accountsPage.edit(firstName, lastName, startDate, Email);
+    }
+
+    @Then("^employee with first name \"([^\"]*)\" and last name \"([^\"]*)\" is present$")
+    public void checkEmployeePresent(String firstName, String lastName) throws Throwable {
+        BasePage basePage = new BasePage();
+        AccountsPage accountsPage = new AccountsPage(basePage.getDriver());
+        Assert.assertTrue(accountsPage.IsEmployeePresent(firstName, lastName));
     }
 
 

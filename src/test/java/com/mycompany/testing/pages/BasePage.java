@@ -28,6 +28,10 @@ public class BasePage {
     }
 
     public void startDriver() {
+        if(driver != null)
+        {
+            driver.close();
+        }
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
             System.setProperty("webdriver.chrome.driver", "drivers\\chromedriver.exe");
         } else {

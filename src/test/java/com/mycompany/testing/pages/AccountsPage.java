@@ -2,10 +2,17 @@ package com.mycompany.testing.pages;
 
 import com.mycompany.testing.actions.FillFields;
 import com.mycompany.testing.actions.Waits;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivan on 28.10.2017.
@@ -45,6 +52,13 @@ public class AccountsPage extends BasePage {
     public
     WebElement Add_or_Update;
 
+   @FindBy(id = "employee-list")
+   public
+   WebElement employee_list;
+
+ /*  @FindAll(@FindBy(xpath = "//*[@id='employee-list']/li"))
+   List<WebElement> employees;*/
+
 
 
     private WebDriver driver;
@@ -67,4 +81,32 @@ public class AccountsPage extends BasePage {
         Add_or_Update.click();
     }
 
+    public boolean IsEmployeePresent(String firstName, String lastName)
+    {
+        return employee_list.getText().contains(firstName + " " + lastName);
+    }
+
+    public void select(String firstName, String lastName) throws Exception
+    {
+        if(!IsEmployeePresent(firstName, lastName))
+        {
+            throw new Exception("There is not Employee");
+        }
+
+        List<WebElement> VisibleEmployees1 = driver.findElements(By.xpath("//*[@id='employee-list']/li"));
+        List<WebElement> VisibleEmployees2 = null;
+
+        while(VisibleEmployees1 != VisibleEmployees2) {
+            VisibleEmployees1 = driver.findElements(By.xpath("//*[@id='employee-list']/li")).stream().filter(e -> e.isDisplayed()).collect(Collectors.toList());
+            List<WebElement> EmployeeToSelect = VisibleEmployees1.stream().filter(e -> e.getText().equals(firstName + " " + lastName)).collect(Collectors.toList());
+            if (EmployeeToSelect.size() > 0) {
+                EmployeeToSelect.get(0).click();
+                return;
+            }
+            else {
+                ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", VisibleEmployees1.get(VisibleEmployees1.size()));
+            }
+            VisibleEmployees2 = driver.findElements(By.xpath("//*[@id='employee-list']/li")).stream().filter(e -> e.isDisplayed()).collect(Collectors.toList());
+        }
+    }
 }
